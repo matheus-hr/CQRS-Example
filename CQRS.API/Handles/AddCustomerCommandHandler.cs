@@ -1,11 +1,12 @@
-﻿using CQRS.API.Entities;
+﻿using CQRS.API.Commands;
+using CQRS.API.Entities;
 using CQRS.API.Repositories;
+using MediatR;
 
-namespace CQRS.API.Commands.AddCustomer
+namespace CQRS.API.Handles
 {
-    public class AddCustomerCommandHandler
+    public class AddCustomerCommandHandler : IRequestHandler<AddCustomerCommand, Guid> //This handler recives a AddCustomerCommand and return a Guid
     {
-
         private readonly ICustomerRepository _repository;
 
         public AddCustomerCommandHandler(ICustomerRepository repository)
@@ -13,7 +14,7 @@ namespace CQRS.API.Commands.AddCustomer
             _repository = repository;
         }
 
-        public async Task<Guid> Handle(AddCustomerCommand command) 
+        public async Task<Guid> Handle(AddCustomerCommand command, CancellationToken cancellationToken)
         {
             var customer = new Customer(
                 command.FullName,
@@ -23,7 +24,7 @@ namespace CQRS.API.Commands.AddCustomer
 
             await _repository.Add(customer);
 
-            return customer.Id; 
+            return customer.Id;
         }
     }
 }

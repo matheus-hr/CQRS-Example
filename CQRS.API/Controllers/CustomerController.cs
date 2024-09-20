@@ -1,8 +1,8 @@
-﻿using CQRS.API.Commands.AddCustomer;
-using CQRS.API.Commands.GetCustomerById;
-using CQRS.API.Repositories;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
+using CQRS.API.Commands;
+using CQRS.API.Repositories;
+using CQRS.API.Queries;
 
 namespace CQRS.API.Controllers
 {
@@ -10,33 +10,33 @@ namespace CQRS.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerRepository _repository;
+        private readonly IMediator _mediator;
 
-        public CustomerController(ICustomerRepository repository)
+        public CustomerController(IMediator mediator)
         {
-            _repository = repository;
+            _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddCustomerCommand command)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] AddCustomerCommand command)
         {
-            var handler = new AddCustomerCommandHandler(_repository);
-
-            var id = await handler.Handle(command);
-
-            return Created("Get", id);
+            var request = await _mediator.Send(command);
+            return Created("Get", request);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet] // FromQuery means that information comes in the URL, just like {id}
+        public async Task<IActionResult> GetById([FromQuery] GetCustomerByIdQuery query)
         {
-            var query = new GetCustomerByIdQuery(id);
-
-            var handler = new GetCustomerByIdQueryHandler(_repository);
-            var customer = await handler.Handle(query);
-
-            return Ok(customer);
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
+        [Route("GetByNameAndEmail")]
+        [HttpPost] // FromQuery means that information comes in the URL, just like {id}
+        public async Task<IActionResult> GetByNameAndEmail([FromBody] GetCustomerByNameAndEmail query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

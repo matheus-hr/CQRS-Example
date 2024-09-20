@@ -7,5 +7,7 @@ namespace CQRS.API.Repositories
         Task Add(Customer customer);
 
         Task<Customer> GetById(Guid id);
+
+        Task<Customer> GetByNameAndEmail(string name, string email);
     }
 }

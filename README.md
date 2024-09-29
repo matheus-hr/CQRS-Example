@@ -1,8 +1,12 @@
 # CQRS Example
 
+![project_language](https://img.shields.io/badge/language-C%23-green)
+![server_backend](https://img.shields.io/badge/backend%2Fserver-.NET%20-blue)
+![CQRS](https://img.shields.io/badge/Pattern-CQRS-blueviolet)
+
 This project is intended for learning purposes and demonstrates how to apply the CQRS pattern in a simple customer registration system.
 
-## Overview
+## 🚀 Overview
 
 This project showcases two different implementations:
 
@@ -12,7 +16,7 @@ This project showcases two different implementations:
 2. **CQRS with MediatR - https://github.com/matheus-hr/CQRS-Example/tree/main**  
    An example that fully implements CQRS, using MediatR to orchestrate commands and queries with their respective handlers.
 
-## Features
+## ⚙️ Features
 
 This project includes a basic customer management system with the following functionalities:
 
@@ -27,7 +31,7 @@ This project includes a basic customer management system with the following func
   - You can search for a customer by their `Id`.
   - You can search for a customer by their `FullName` and  `Email`.
 
-## How to Run the Project
+## 💻 How to Run the Project
 
 Follow these steps to run the project locally:
 
